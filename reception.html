@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شاشة الاستقبال - المسح الضوئي - Royal Gym</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Reception specific styles */
+        .reception-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: var(--bg-main);
+        }
+        
+        .reception-card {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 0 60px rgba(212, 175, 55, 0.08), 0 20px 60px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(16px);
+        }
+        
+        .scanner-container {
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            margin: 20px 0;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            position: relative;
+            min-height: 280px;
+            background: #0f172a;
+        }
+        
+        #qr-reader {
+            border: none !important;
+        }
+        
+        #qr-reader__scan_region {
+            background: #0f172a;
+            min-height: 280px;
+        }
+        
+        #qr-reader__scan_region video {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        
+        #qr-reader__dashboard_section_csr button,
+        #qr-reader__dashboard_section_swaplink {
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: #D4AF37;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 600;
+            margin: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        #qr-reader__dashboard_section_csr button:hover {
+            background: rgba(212, 175, 55, 0.25);
+        }
+        
+        .camera-permission-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .camera-permission-overlay i {
+            font-size: 48px;
+            color: var(--gold-primary);
+            margin-bottom: 15px;
+        }
+        
+        .camera-permission-overlay h3 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .camera-permission-overlay p {
+            color: #94a3b8;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .camera-permission-btn {
+            background: var(--gold-primary);
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .camera-permission-btn:hover {
+            background: #e5c04c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        .camera-loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .camera-loading .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(212, 175, 55, 0.3);
+            border-top-color: var(--gold-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .result-card {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 16px;
+            animation: slideUp 0.3s ease;
+            display: none;
+        }
+        
+        .result-card.success {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            display: block;
+        }
+        
+        .result-card.error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            display: block;
+        }
+        
+        .result-card.warning {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            display: block;
+        }
+        
+        .mode-switch {
+            display: flex;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .mode-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .mode-btn.active {
+            background: var(--gold-primary);
+            color: #000;
+        }
+        
+        .mode-btn:not(.active) {
+            background: transparent;
+            color: var(--text-primary);
+        }
+        
+        .hidden-input {
+            position: absolute;
+            opacity: 0;
+            height: 0;
+            width: 0;
+            pointer-events: none;
+        }
+        
+        .recent-scans {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .recent-scans h4 {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .recent-scans-list {
+            max-height: 150px;
+            overflow-y: auto;
+            padding: 5px;
+        }
+        
+        .recent-scan-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        
+        .recent-scan-item.success {
+            border-right: 3px solid var(--success);
+        }
+        
+        .recent-scan-item.error {
+            border-right: 3px solid var(--danger);
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .reception-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="success-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+    <audio id="error-sound" src="https://assets.mixkit.co/active_storage/sfx/2955/2955-preview.mp3" preload="auto"></audio>
+    <audio id="beep-sound" src="https://assets.mixkit.co/active_storage/sfx/2873/2873-preview.mp3" preload="auto"></audio>
+
+    <div class="reception-container">
+        <div class="reception-card">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <i class='bx bx-crown' style="font-size: 60px; color: var(--gold-primary); text-shadow: 0 0 20px rgba(212,175,55,0.5);"></i>
+                <h1 style="color: var(--gold-primary); margin: 10px 0 5px; font-size: 28px;">Royal Gym Reception</h1>
+                <p class="text-secondary" id="current-datetime"></p>
+            </div>
+
+            <!-- Hidden input for USB Scanner Support -->
+            <input type="text" id="scanner-input" class="hidden-input" autocomplete="off" autofocus>
+
+            <!-- Mode Switch -->
+            <div class="mode-switch">
+                <button class="mode-btn active" id="btn-camera-mode" onclick="switchMode('camera')">
+                    <i class='bx bx-camera'></i> كاميرا QR
+                </button>
+                <button class="mode-btn" id="btn-scanner-mode" onclick="switchMode('scanner')">
+                    <i class='bx bx-qr-scan'></i> ماسح USB
+                </button>
+            </div>
+
+            <!-- Camera QR Scanner Mode -->
+            <div id="camera-mode">
+                <div class="scanner-container" id="scanner-container">
+                    <!-- Permission Overlay -->
+                    <div id="camera-permission-overlay" class="camera-permission-overlay">
+                        <i class='bx bx-camera'></i>
+                        <h3>طلب إذن الكاميرا</h3>
+                        <p>نحتاج إلى إذنك لاستخدام الكاميرا لمسح QR Code الخاص بالعضو</p>
+                        <button id="request-camera-btn" class="camera-permission-btn" onclick="requestCameraPermission()">
+                            <i class='bx bx-check-circle'></i>
+                            السماح باستخدام الكاميرا
+                        </button>
+                    </div>
+                    
+                    <!-- Camera Loading -->
+                    <div id="camera-loading" class="camera-loading">
+                        <div class="spinner"></div>
+                        <p style="color: var(--text-secondary);">جاري تشغيل الكاميرا...</p>
+                    </div>
+                    
+                    <!-- QR Reader will be inserted here -->
+                    <div id="qr-reader"></div>
+                </div>
+                <p class="text-secondary" style="text-align: center; font-size: 13px; margin-top: 10px;">
+                    <i class='bx bx-info-circle'></i> وجه الكاميرا نحو QR Code الخاص بالعضو
+                </p>
+            </div>
+
+            <!-- USB Scanner Mode -->
+            <div id="scanner-mode" style="display: none;">
+                <div style="text-align: center; padding: 40px 20px; background: rgba(0,0,0,0.2); border-radius: 16px; border: 2px dashed var(--gold-primary); margin: 20px 0;">
+                    <i class='bx bx-qr-scan' style="font-size: 48px; color: var(--gold-primary); opacity: 0.5;"></i>
+                    <p style="color: var(--text-primary); font-size: 16px; margin: 15px 0;">الماسح الضوئي جاهز</p>
+                    <p class="text-secondary" style="font-size: 13px;">قم بتمرير البطاقة على الماسح الضوئي USB</p>
+                    <div id="scanner-indicator" style="width: 10px; height: 10px; background: var(--gold-primary); border-radius: 50%; margin: 10px auto; animation: pulse 1.5s infinite;"></div>
+                </div>
+            </div>
+
+            <!-- Result Display -->
+            <div id="result-card" class="result-card">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <i id="result-icon" class='bx bx-check-circle' style="font-size: 48px;"></i>
+                    <div>
+                        <h3 id="result-name" style="margin: 0 0 5px; font-size: 18px;"></h3>
+                        <p id="result-message" style="margin: 0; font-size: 14px;"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manual Check-in (Quick Access) -->
+            <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 10px;">تسجيل يدوي سريع:</p>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="manual-input" class="form-control" placeholder="رقم العضوية" onkeypress="if(event.key==='Enter') manualCheckin()">
+                    <button class="btn btn-primary" onclick="manualCheckin()" style="white-space: nowrap;">
+                        <i class='bx bx-check-circle'></i> تسجيل
+                    </button>
+                </div>
+            </div>
+
+            <!-- Recent Scans -->
+            <div class="recent-scans">
+                <h4><i class='bx bx-history'></i> آخر عمليات المسح</h4>
+                <div class="recent-scans-list" id="recent-scans-list">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="page-footer" style="text-align: center; padding: 20px; color: #475569;">
+        Developed by <a href="https://wa.me/201013706142" target="_blank" rel="noopener noreferrer" class="footer-link">Abdelkader Mohamed</a>
+    </footer>
+
+    <!-- Load QR Scanner Library -->
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/minified/html5-qrcode.min.js"></script>
+    <script src="js/db.js"></script>
+    <script src="js/qr-scanner.js"></script>
+</body>
+
+</html>

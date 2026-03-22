@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الاشتراكات - Royal Gym</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Pack type selector grid */
+        .pack-type-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .pack-type-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 14px 10px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: Cairo, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .pack-type-btn:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+            background: rgba(212, 175, 55, 0.06);
+            color: var(--text-primary);
+        }
+
+        .pack-type-btn.selected {
+            border-color: var(--gold-primary);
+            background: rgba(212, 175, 55, 0.12);
+            color: var(--gold-primary);
+            box-shadow: 0 0 14px rgba(212, 175, 55, 0.15);
+        }
+
+        .pack-type-btn .bx {
+            font-size: 22px;
+        }
+
+        .pack-type-btn.sessions-type {
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .pack-type-btn.sessions-type.selected {
+            border-color: var(--info);
+            background: rgba(59, 130, 246, 0.12);
+            color: var(--info);
+            box-shadow: 0 0 14px rgba(59, 130, 246, 0.15);
+        }
+
+        .sessions-input-row {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .sessions-input-row.visible {
+            display: block;
+        }
+
+        /* Plan card badges */
+        .plan-type-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        /* Plan card sessions pill */
+        .sessions-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(59, 130, 246, 0.12);
+            color: var(--info);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .duration-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold-primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 576px) {
+            .pack-type-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 380px) {
+            .pack-type-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="logo-details"><i class='bx bx-crown icon'></i>
+            <div class="logo_name">Royal Gym</div><i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav-list">
+            <li><a href="dashboard.html" class="nav-link"><i class="bx bx-grid-alt"></i><span
+                        class="links_name">الرئيسية</span></a><span class="tooltip">الرئيسية</span></li>
+            <li><a href="members.html" class="nav-link"><i class="bx bx-user"></i><span class="links_name">إدارة
+                        الأعضاء</span></a><span class="tooltip">الأعضاء</span></li>
+            <li><a href="attendance.html" class="nav-link"><i class="bx bx-check-square"></i><span
+                        class="links_name">إدارة الحضور</span></a><span class="tooltip">الحضور</span></li>
+            <li><a href="subscriptions.html" class="nav-link active"><i class="bx bx-card"></i><span
+                        class="links_name">الاشتراكات</span></a><span class="tooltip">الاشتراكات</span></li>
+            <li><a href="reports.html" class="nav-link"><i class="bx bx-pie-chart-alt-2"></i><span
+                        class="links_name">التقارير</span></a><span class="tooltip">التقارير</span></li>
+            <li><a href="settings.html" class="nav-link"><i class="bx bx-cog"></i><span
+                        class="links_name">الإعدادات</span></a><span class="tooltip">الإعدادات</span></li>
+            <li class="reception-link"><a href="reception.html" class="nav-link"><i class="bx bx-qr-scan"></i><span
+                        class="links_name">شاشة الاستقبال</span></a><span class="tooltip">الاستقبال</span></li>
+            <li style="margin-top:40px;"><a href="index.html" class="nav-link"><i
+                        class='bx bx-log-out text-red'></i><span class="links_name text-red">تسجيل
+                        الخروج</span></a><span class="tooltip">خروج</span></li>
+        </ul>
+    </aside>
+    <main class="main-content" id="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <button class="mobile-menu-btn" aria-label="فتح القائمة"><i class='bx bx-menu'></i></button>
+                <div class="search-box"><i class='bx bx-search'></i><input type="text" placeholder="بحث سريع عن عضو...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="datetime" id="current-datetime"></div>
+                <div class="notifications"><i class='bx bx-bell'></i><span class="badge">0</span></div>
+                <div class="profile-dropdown"><img
+                        src="https://ui-avatars.com/api/?name=Admin&background=fbbf24&color=000" alt="Admin"><span>مدير
+                        النظام</span><i class='bx bx-chevron-down'></i></div>
+            </div>
+        </header>
+        <div class="pages-container">
+            <section id="subscriptions" class="page active">
+                <div class="page-header">
+                    <h2>خطط الاشتراك</h2>
+                    <button class="btn btn-primary" onclick="showAddPlanForm()"><i class="bx bx-plus"></i> إضافة
+                        خطة</button>
+                </div>
+
+                <!-- Add / Edit Plan Form -->
+                <div id="plan-form-section" class="glass-card" style="display:none;padding:25px;margin-bottom:25px;">
+                    <h3 id="plan-form-title" style="margin-bottom:5px;">إضافة خطة جديدة</h3>
+                    <p class="text-secondary" style="font-size:13px;margin-bottom:20px;">اختر نوع الباقة ثم ادخل السعر
+                    </p>
+                    <input type="hidden" id="edit-plan-id">
+
+                    <!-- Pack Type Selector -->
+                    <div class="form-group mb-4">
+                        <label style="margin-bottom:12px;display:block;">نوع الباقة *</label>
+                        <div class="pack-type-grid">
+                            <button type="button" class="pack-type-btn" data-type="monthly" data-months="1"
+                                onclick="selectPackType(this)">
+                                <i class='bx bx-calendar'></i>شهري
+                            </button>
+                            <button type="button" class="pack-type-btn sessions-type" data-type="monthly-sessions"
+                                data-months="1" onclick="selectPackType(this)">
+                                <i class='bx bx-run'></i>شهري بجلسات
+                            </button>
+                            <button type="button" class="pack-type-btn" data-type="2months" data-months="2"
+                                onclick="selectPackType(this)">
+                                <i class='bx bx-calendar-check'></i>شهرين
+                            </button>
+                            <button type="button" class="pack-type-btn" data-type="3months" data-months="3"
+                                onclick="selectPackType(this)">
+                                <i class='bx bx-calendar-week'></i>3 شهور
+                            </button>
+                            <button type="button" class="pack-type-btn" data-type="6months" data-months="6"
+                                onclick="selectPackType(this)">
+                                <i class='bx bx-calendar-alt'></i>6 شهور
+                            </button>
+                            <button type="button" class="pack-type-btn" data-type="yearly" data-months="12"
+                                onclick="selectPackType(this)">
+                                <i class='bx bx-crown'></i>سنوي
+                            </button>
+                        </div>
+                    </div>
+
+                    <form id="add-plan-form" onsubmit="handleAddPlan(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>اسم الخطة *</label>
+                                <input type="text" id="planName" class="form-control" required
+                                    placeholder="مثال: شهري VIP">
+                            </div>
+                            <div class="form-group">
+                                <label>السعر (ج.م) *</label>
+                                <input type="number" id="planPrice" class="form-control" required min="1"
+                                    placeholder="450">
+                            </div>
+                            <div class="form-group">
+                                <label>المدة (بالشهور)</label>
+                                <input type="number" id="planMonths" class="form-control" required min="1"
+                                    placeholder="1" readonly style="background:rgba(255,255,255,0.03);">
+                            </div>
+                            <div class="form-group">
+                                <label>حد أقصى للدخول (0 = غير محدود)</label>
+                                <input type="number" id="planMaxEntries" class="form-control" value="0" min="0">
+                            </div>
+                        </div>
+
+                        <!-- Sessions row: only shown for monthly-sessions type -->
+                        <div id="sessions-input-row" class="sessions-input-row mt-2 mb-3">
+                            <div class="form-group" style="max-width:300px;">
+                                <label style="display:flex;align-items:center;gap:6px;">
+                                    <i class='bx bx-run text-blue'></i> عدد الجلسات شهرياً *
+                                    <small class="text-secondary" style="font-size:11px;">(0 = غير محدود)</small>
+                                </label>
+                                <input type="number" id="planSessions" class="form-control" value="0" min="0"
+                                    placeholder="مثال: 12">
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="planType" value="">
+
+                        <div style="display:flex;gap:10px;margin-top:15px;">
+                            <button type="submit" class="btn btn-primary"><i class='bx bx-save'></i> حفظ الخطة</button>
+                            <button type="button" class="btn btn-secondary" onclick="hideAddPlanForm()">إلغاء</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Plans Grid -->
+                <div id="plans-container"
+                    style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px;"></div>
+            </section>
+        </div>
+    </main>
+    <footer class="site-footer">
+        Developed by <a href="https://wa.me/201013706142" target="_blank" rel="noopener noreferrer"
+            class="footer-link">Abdelkader Mohamed</a>
+    </footer>
+    <script src="js/db.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/subscriptions.js"></script>
+</body>
+
+</html>

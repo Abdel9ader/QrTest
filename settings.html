@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الإعدادات - Royal Gym</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="logo-details"><i class='bx bx-crown icon'></i>
+            <div class="logo_name">Royal Gym</div><i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav-list">
+            <li><a href="dashboard.html" class="nav-link"><i class="bx bx-grid-alt"></i><span
+                        class="links_name">الرئيسية</span></a><span class="tooltip">الرئيسية</span></li>
+            <li><a href="members.html" class="nav-link"><i class="bx bx-user"></i><span class="links_name">إدارة
+                        الأعضاء</span></a><span class="tooltip">الأعضاء</span></li>
+            <li><a href="attendance.html" class="nav-link"><i class="bx bx-check-square"></i><span
+                        class="links_name">إدارة الحضور</span></a><span class="tooltip">الحضور</span></li>
+            <li><a href="subscriptions.html" class="nav-link"><i class="bx bx-card"></i><span
+                        class="links_name">الاشتراكات</span></a><span class="tooltip">الاشتراكات</span></li>
+            <li><a href="reports.html" class="nav-link"><i class="bx bx-pie-chart-alt-2"></i><span
+                        class="links_name">التقارير</span></a><span class="tooltip">التقارير</span></li>
+            <li><a href="settings.html" class="nav-link active"><i class="bx bx-cog"></i><span
+                        class="links_name">الإعدادات</span></a><span class="tooltip">الإعدادات</span></li>
+            <li class="reception-link"><a href="reception.html" class="nav-link"><i class="bx bx-qr-scan"></i><span
+                        class="links_name">شاشة الاستقبال</span></a><span class="tooltip">الاستقبال</span></li>
+            <li style="margin-top:40px;"><a href="index.html" class="nav-link"><i
+                        class='bx bx-log-out text-red'></i><span class="links_name text-red">تسجيل
+                        الخروج</span></a><span class="tooltip">خروج</span></li>
+        </ul>
+    </aside>
+    <main class="main-content" id="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <button class="mobile-menu-btn" aria-label="فتح القائمة"><i class='bx bx-menu'></i></button>
+                <div class="search-box"><i class='bx bx-search'></i><input type="text" placeholder="بحث سريع عن عضو...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="datetime" id="current-datetime"></div>
+                <div class="notifications"><i class='bx bx-bell'></i><span class="badge">0</span></div>
+                <div class="profile-dropdown"><img
+                        src="https://ui-avatars.com/api/?name=Admin&background=fbbf24&color=000" alt="Admin"><span>مدير
+                        النظام</span><i class='bx bx-chevron-down'></i></div>
+            </div>
+        </header>
+        <div class="pages-container">
+            <section id="settings" class="page active">
+                <div class="page-header">
+                    <h2>الإعدادات</h2>
+                </div>
+                <form id="settings-form" onsubmit="saveSettings(event)">
+                    <!-- Gym Info -->
+                    <div class="glass-card" style="padding:25px;max-width:600px;">
+                        <h3 style="margin-bottom:20px;"><i class='bx bx-building text-gold'></i> معلومات الصالة</h3>
+                        <div class="form-group mb-3">
+                            <label>اسم الصالة</label>
+                            <input type="text" id="gymName" class="form-control" placeholder="Royal Gym">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>ساعات العمل</label>
+                            <input type="text" id="workHours" class="form-control"
+                                placeholder="من 8 صباحاً حتى 12 منتصف الليل">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top:10px;">
+                            <i class='bx bx-save'></i> حفظ الإعدادات
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Danger Zone -->
+                <div class="glass-card" style="padding:25px;margin-top:25px;border-top:2px solid rgba(239,68,68,0.3);">
+                    <h3 style="color:#ef4444;margin-bottom:10px;"><i class='bx bx-error'></i> منطقة الخطر</h3>
+                    <p style="color:#94a3b8;margin-bottom:15px;font-size:14px;">حذف جميع البيانات بشكل نهائي وإعادة
+                        تهيئة النظام.</p>
+                    <button class="btn" onclick="resetAllData()"
+                        style="background:rgba(239,68,68,0.15);color:#ef4444;"><i class='bx bx-trash'></i> مسح جميع
+                        البيانات</button>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer class="site-footer">
+        Developed by <a href="https://wa.me/201013706142" target="_blank" rel="noopener noreferrer"
+            class="footer-link">Abdelkader Mohamed</a>
+    </footer>
+    <script src="js/db.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/settings.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F2C744;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0B1120;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E293B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="32" fill="url(#bgGrad)"/>
+  <!-- Dumbbell bar -->
+  <rect x="16" y="30" width="32" height="4" rx="2" fill="url(#goldGrad)"/>
+  <!-- Left weight outer -->
+  <rect x="8" y="22" width="8" height="20" rx="3" fill="url(#goldGrad)"/>
+  <!-- Left weight inner -->
+  <rect x="10" y="19" width="4" height="26" rx="2" fill="url(#goldGrad)" opacity="0.7"/>
+  <!-- Right weight outer -->
+  <rect x="48" y="22" width="8" height="20" rx="3" fill="url(#goldGrad)"/>
+  <!-- Right weight inner -->
+  <rect x="50" y="19" width="4" height="26" rx="2" fill="url(#goldGrad)" opacity="0.7"/>
+  <!-- Crown accent on top -->
+  <path d="M26 16 L32 11 L38 16 L35 14 L32 17 L29 14 Z" fill="url(#goldGrad)" opacity="0.9"/>
+</svg>

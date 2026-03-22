@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الحضور - Royal Gym</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="logo-details"><i class='bx bx-crown icon'></i>
+            <div class="logo_name">Royal Gym</div><i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav-list">
+            <li><a href="dashboard.html" class="nav-link"><i class="bx bx-grid-alt"></i><span
+                        class="links_name">الرئيسية</span></a><span class="tooltip">الرئيسية</span></li>
+            <li><a href="members.html" class="nav-link"><i class="bx bx-user"></i><span class="links_name">إدارة
+                        الأعضاء</span></a><span class="tooltip">الأعضاء</span></li>
+            <li><a href="attendance.html" class="nav-link active"><i class="bx bx-check-square"></i><span
+                        class="links_name">إدارة الحضور</span></a><span class="tooltip">الحضور</span></li>
+            <li><a href="subscriptions.html" class="nav-link"><i class="bx bx-card"></i><span
+                        class="links_name">الاشتراكات</span></a><span class="tooltip">الاشتراكات</span></li>
+            <li><a href="reports.html" class="nav-link"><i class="bx bx-pie-chart-alt-2"></i><span
+                        class="links_name">التقارير</span></a><span class="tooltip">التقارير</span></li>
+            <li><a href="settings.html" class="nav-link"><i class="bx bx-cog"></i><span
+                        class="links_name">الإعدادات</span></a><span class="tooltip">الإعدادات</span></li>
+            <li class="reception-link"><a href="reception.html" class="nav-link"><i class="bx bx-qr-scan"></i><span
+                        class="links_name">شاشة الاستقبال</span></a><span class="tooltip">الاستقبال</span></li>
+            <li style="margin-top:40px;"><a href="index.html" class="nav-link"><i
+                        class='bx bx-log-out text-red'></i><span class="links_name text-red">تسجيل
+                        الخروج</span></a><span class="tooltip">خروج</span></li>
+        </ul>
+    </aside>
+    <main class="main-content" id="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <button class="mobile-menu-btn" aria-label="فتح القائمة"><i class='bx bx-menu'></i></button>
+                <div class="search-box"><i class='bx bx-search'></i><input type="text" placeholder="بحث سريع عن عضو...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="datetime" id="current-datetime"></div>
+                <div class="notifications"><i class='bx bx-bell'></i><span class="badge">0</span></div>
+                <div class="profile-dropdown"><img
+                        src="https://ui-avatars.com/api/?name=Admin&background=fbbf24&color=000" alt="Admin"><span>مدير
+                        النظام</span><i class='bx bx-chevron-down'></i></div>
+            </div>
+        </header>
+        <div class="pages-container">
+            <section id="attendance" class="page active">
+                <div class="page-header">
+                    <h2>سجل الحضور</h2>
+                    <button class="btn btn-primary" onclick="window.location.href='reception.html'"><i
+                            class="bx bx-qr-scan"></i> شاشة الاستقبال</button>
+                </div>
+
+                <!-- ✅ QR Camera Scanner Card -->
+                <div class="glass-card" style="padding:20px;margin-bottom:20px;">
+                    <h3 style="margin:0 0 15px;font-size:15px;display:flex;align-items:center;gap:8px;">
+                        <i class='bx bx-qr-scan text-gold'></i> ماسح QR بالكاميرا
+                        <span style="font-size:12px;color:#94a3b8;font-weight:400;margin-right:auto;">
+                            افتح الكاميرا وامسح بطاقة العضو
+                        </span>
+                    </h3>
+
+                    <!-- Camera preview -->
+                    <div id="att-qr-reader" style="width:100%;max-width:400px;margin:0 auto 12px;"></div>
+
+                    <!-- Status row -->
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+                        <span id="scanner-status-dot"
+                            style="width:10px;height:10px;border-radius:50%;background:#94a3b8;display:inline-block;transition:all 0.3s;"></span>
+                        <span id="scanner-status-text" style="font-size:13px;color:#94a3b8;">في انتظار المسح</span>
+                    </div>
+
+                    <!-- Control buttons -->
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <button id="att-start-scanner-btn" class="btn btn-primary" onclick="startAttQrScanner()">
+                            <i class='bx bx-camera'></i> تشغيل الكاميرا
+                        </button>
+                        <button id="att-stop-scanner-btn" class="btn" onclick="stopAttQrScanner()"
+                            style="display:none;background:var(--danger);color:#fff;">
+                            <i class='bx bx-stop-circle'></i> إيقاف الكاميرا
+                        </button>
+                    </div>
+
+                    <!-- Scanner Result -->
+                    <div id="att-scanner-result" class="scanner-result-card" style="display:none;margin-top:14px;">
+                        <div class="scanner-icon-row">
+                            <i id="att-result-icon" class="bx bx-check-circle" style="color:var(--success);"></i>
+                            <div>
+                                <p id="att-result-name" class="scanner-result-name"></p>
+                                <p id="att-result-msg" class="scanner-result-msg"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manual Check-in Card -->
+                <div class="glass-card"
+                    style="padding:20px;margin-bottom:25px;display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                    <h3 style="margin:0;font-size:16px;white-space:nowrap;"><i
+                            class='bx bx-log-in-circle text-gold'></i> تسجيل حضور يدوي</h3>
+                    <input type="text" id="manual-checkin-id" class="form-control" style="flex:1;max-width:250px;"
+                        placeholder="أدخل رقم العضوية...">
+                    <button class="btn btn-primary" onclick="manualCheckin()"><i class='bx bx-check-circle'></i>
+                        تسجيل</button>
+                </div>
+
+                <div class="glass-card table-container">
+                    <div class="table-controls">
+                        <input type="date" id="att-date-filter" class="form-control">
+                        <select id="att-method-filter" class="form-control filter-select">
+                            <option value="">كل طرق التسجيل</option>
+                            <option value="qr">QR Code</option>
+                            <option value="manual">يدوي</option>
+                        </select>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>اسم العضو</th>
+                                <th>رقم العضوية</th>
+                                <th>وقت الدخول</th>
+                                <th>طريقة التسجيل</th>
+                                <th>الموظف المسئول</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendance-tbody">
+                            <tr>
+                                <td colspan="5" style="text-align:center;padding:40px;color:#94a3b8;">جاري التحميل...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer class="site-footer">
+        Developed by <a href="https://wa.me/201013706142" target="_blank" rel="noopener noreferrer"
+            class="footer-link">Abdelkader Mohamed</a>
+    </footer>
+    <script src="js/db.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/attendance.js"></script>
+</body>
+
+</html>

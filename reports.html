@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التقارير - Royal Gym</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        @media print {
+
+            .sidebar,
+            .top-header,
+            .report-controls,
+            .page-header button {
+                display: none !important;
+            }
+
+            .main-content {
+                margin: 0 !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="logo-details"><i class='bx bx-crown icon'></i>
+            <div class="logo_name">Royal Gym</div><i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav-list">
+            <li><a href="dashboard.html" class="nav-link"><i class="bx bx-grid-alt"></i><span
+                        class="links_name">الرئيسية</span></a><span class="tooltip">الرئيسية</span></li>
+            <li><a href="members.html" class="nav-link"><i class="bx bx-user"></i><span class="links_name">إدارة
+                        الأعضاء</span></a><span class="tooltip">الأعضاء</span></li>
+            <li><a href="attendance.html" class="nav-link"><i class="bx bx-check-square"></i><span
+                        class="links_name">إدارة الحضور</span></a><span class="tooltip">الحضور</span></li>
+            <li><a href="subscriptions.html" class="nav-link"><i class="bx bx-card"></i><span
+                        class="links_name">الاشتراكات</span></a><span class="tooltip">الاشتراكات</span></li>
+            <li><a href="reports.html" class="nav-link active"><i class="bx bx-pie-chart-alt-2"></i><span
+                        class="links_name">التقارير</span></a><span class="tooltip">التقارير</span></li>
+            <li><a href="settings.html" class="nav-link"><i class="bx bx-cog"></i><span
+                        class="links_name">الإعدادات</span></a><span class="tooltip">الإعدادات</span></li>
+            <li class="reception-link"><a href="reception.html" class="nav-link"><i class="bx bx-qr-scan"></i><span
+                        class="links_name">شاشة الاستقبال</span></a><span class="tooltip">الاستقبال</span></li>
+            <li style="margin-top:40px;"><a href="index.html" class="nav-link"><i
+                        class='bx bx-log-out text-red'></i><span class="links_name text-red">تسجيل
+                        الخروج</span></a><span class="tooltip">خروج</span></li>
+        </ul>
+    </aside>
+    <main class="main-content" id="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <button class="mobile-menu-btn" aria-label="فتح القائمة"><i class='bx bx-menu'></i></button>
+                <div class="search-box"><i class='bx bx-search'></i><input type="text" placeholder="بحث سريع عن عضو...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="datetime" id="current-datetime"></div>
+                <div class="notifications"><i class='bx bx-bell'></i><span class="badge">0</span></div>
+                <div class="profile-dropdown"><img
+                        src="https://ui-avatars.com/api/?name=Admin&background=fbbf24&color=000" alt="Admin"><span>مدير
+                        النظام</span><i class='bx bx-chevron-down'></i></div>
+            </div>
+        </header>
+        <div class="pages-container">
+            <section id="reports" class="page active">
+                <div class="page-header">
+                    <h2>التقارير والإحصائيات</h2>
+                    <div style="display:flex;gap:10px;">
+                        <button class="btn btn-secondary" onclick="exportPDF()"><i class='bx bx-file-pdf'></i>
+                            PDF</button>
+                        <button class="btn btn-secondary" onclick="exportExcel()"><i class='bx bx-spreadsheet'></i>
+                            Excel</button>
+                    </div>
+                </div>
+
+                <!-- Summary Cards -->
+                <div class="stats-grid" style="margin-bottom:25px;">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>إجمالي الأعضاء</h3>
+                            <p class="stat-value" id="rep-total">-</p>
+                        </div>
+                        <div class="stat-icon bg-gold-light"><i class='bx bx-group text-gold'></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>الأعضاء النشطين</h3>
+                            <p class="stat-value" id="rep-active">-</p>
+                        </div>
+                        <div class="stat-icon bg-green-light"><i class='bx bx-user-check text-green'></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>اشتراكات منتهية</h3>
+                            <p class="stat-value" id="rep-expired">-</p>
+                        </div>
+                        <div class="stat-icon bg-red-light"><i class='bx bx-user-x text-red'></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>إيراد الاشتراكات</h3>
+                            <p class="stat-value" id="rep-revenue">-</p>
+                        </div>
+                        <div class="stat-icon bg-gold-light"><i class='bx bx-money text-gold'></i></div>
+                    </div>
+                </div>
+
+                <div class="dashboard-content">
+                    <!-- Report generator -->
+                    <div class="glass-card report-controls" style="padding:25px;">
+                        <h3 style="margin-bottom:20px;">توليد تقرير</h3>
+                        <form id="report-form" onsubmit="generateReport(event)">
+                            <div class="form-group" style="margin-bottom:15px;">
+                                <label>نوع التقرير</label>
+                                <select id="rep-type" class="form-control">
+                                    <option value="attendance_daily">سجل الحضور</option>
+                                    <option value="commitment">أكثر الأعضاء التزاماً</option>
+                                    <option value="absent">الأعضاء الغائبين</option>
+                                    <option value="revenue">إيرادات الاشتراكات</option>
+                                    <option value="expiring">اشتراكات قاربت الانتهاء</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom:20px;">
+                                <label>الفترة الزمنية</label>
+                                <select id="rep-period" class="form-control">
+                                    <option value="week">آخر 7 أيام</option>
+                                    <option value="month" selected>آخر 30 يوم</option>
+                                    <option value="year">آخر سنة</option>
+                                    <option value="all">الكل</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width:100%;"><i
+                                    class='bx bx-search'></i> عرض التقرير</button>
+                        </form>
+                    </div>
+
+                    <!-- Revenue Donut Chart -->
+                    <div class="glass-card" style="padding:25px;">
+                        <h3>توزيع أنواع الاشتراكات</h3>
+                        <div style="height:240px;"><canvas id="revenueChart"></canvas></div>
+                    </div>
+                </div>
+
+                <!-- Report Output -->
+                <div id="report-output" class="glass-card" style="padding:20px;margin-top:25px;overflow-x:auto;"></div>
+            </section>
+        </div>
+    </main>
+    <footer class="site-footer">
+        Developed by <a href="https://wa.me/201013706142" target="_blank" rel="noopener noreferrer"
+            class="footer-link">Abdelkader Mohamed</a>
+    </footer>
+    <script src="js/db.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/reports.js"></script>
+</body>
+
+</html>

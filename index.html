@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - Royal Gym</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ── Login-specific overrides ── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body.login-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 16px;
+            background: var(--bg-main);
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .login-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 20px;
+            padding: 44px 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 0 60px rgba(212, 175, 55, 0.08), 0 20px 60px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(16px);
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-logo i {
+            font-size: 56px;
+            color: var(--gold-primary);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .login-logo h2 {
+            margin: 8px 0 4px;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--gold-primary);
+        }
+
+        .login-logo p {
+            margin: 0;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .login-card .form-group {
+            margin-bottom: 18px;
+        }
+
+        .login-card label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .login-card .form-control {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .login-card .btn-login {
+            width: 100%;
+            margin-top: 8px;
+            justify-content: center;
+            padding: 13px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 12px;
+        }
+
+        .login-error {
+            display: none;
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+            padding: 10px 14px;
+            border-radius: 9px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .login-error.visible {
+            display: block;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 32px 22px;
+            }
+
+            .login-logo i {
+                font-size: 44px;
+            }
+
+            .login-logo h2 {
+                font-size: 22px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .login-card {
+                padding: 24px 16px;
+            }
+        }
+
+        .page-footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #475569;
+            text-align: center;
+        }
+
+        .page-footer .footer-link {
+            color: var(--gold-primary);
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body class="login-body">
+    <!-- Page loader (for transition to dashboard) -->
+    <div id="page-loader">
+        <div class="loader-ring"></div>
+        <span class="loader-text">جارٍ التحميل...</span>
+    </div>
+
+    <div class="login-card">
+        <div class="login-logo">
+            <i class='bx bx-crown'></i>
+            <h2>Royal Gym</h2>
+            <p>لوحة تحكم الإدارة</p>
+        </div>
+
+        <div id="login-error" class="login-error">
+            <i class='bx bx-error-circle'></i> اسم المستخدم أو كلمة المرور غير صحيحة
+        </div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label>اسم المستخدم</label>
+                <input type="text" id="username" class="form-control" required placeholder="admin"
+                    autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label>كلمة المرور</label>
+                <input type="password" id="password" class="form-control" required placeholder="••••••"
+                    autocomplete="current-password">
+            </div>
+            <button type="submit" class="btn btn-primary btn-login">
+                تسجيل الدخول <i class='bx bx-log-in-circle'></i>
+            </button>
+        </form>
+    </div>
+
+    <footer class="page-footer">
+        Developed by <a href="https://wa.me/201013706142" target="_blank" rel="noopener noreferrer"
+            class="footer-link">Abdelkader Mohamed</a>
+    </footer>
+    <script src="js/auth.js"></script>
+</body>
+
+</html>

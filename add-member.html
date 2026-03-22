@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة عضو - Royal Gym</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="logo-details"><i class='bx bx-crown icon'></i>
+            <div class="logo_name">Royal Gym</div><i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav-list">
+            <li><a href="dashboard.html" class="nav-link"><i class="bx bx-grid-alt"></i><span
+                        class="links_name">الرئيسية</span></a><span class="tooltip">الرئيسية</span></li>
+            <li><a href="members.html" class="nav-link active"><i class="bx bx-user"></i><span class="links_name">إدارة
+                        الأعضاء</span></a><span class="tooltip">الأعضاء</span></li>
+            <li><a href="attendance.html" class="nav-link"><i class="bx bx-check-square"></i><span
+                        class="links_name">إدارة الحضور</span></a><span class="tooltip">الحضور</span></li>
+            <li><a href="subscriptions.html" class="nav-link"><i class="bx bx-card"></i><span
+                        class="links_name">الاشتراكات</span></a><span class="tooltip">الاشتراكات</span></li>
+            <li><a href="reports.html" class="nav-link"><i class="bx bx-pie-chart-alt-2"></i><span
+                        class="links_name">التقارير</span></a><span class="tooltip">التقارير</span></li>
+            <li><a href="settings.html" class="nav-link"><i class="bx bx-cog"></i><span
+                        class="links_name">الإعدادات</span></a><span class="tooltip">الإعدادات</span></li>
+            <li class="reception-link"><a href="reception.html" class="nav-link"><i class="bx bx-qr-scan"></i><span
+                        class="links_name">شاشة الاستقبال</span></a><span class="tooltip">الاستقبال</span></li>
+            <li style="margin-top:40px;"><a href="index.html" class="nav-link"><i
+                        class='bx bx-log-out text-red'></i><span class="links_name text-red">تسجيل
+                        الخروج</span></a><span class="tooltip">خروج</span></li>
+        </ul>
+    </aside>
+    <main class="main-content" id="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <button class="mobile-menu-btn" aria-label="فتح القائمة"><i class='bx bx-menu'></i></button>
+                <div class="search-box"><i class='bx bx-search'></i><input type="text" placeholder="بحث سريع عن عضو...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="datetime" id="current-datetime"></div>
+                <div class="notifications"><i class='bx bx-bell'></i><span class="badge">0</span></div>
+                <div class="profile-dropdown"><img
+                        src="https://ui-avatars.com/api/?name=Admin&background=fbbf24&color=000" alt="Admin"><span>مدير
+                        النظام</span><i class='bx bx-chevron-down'></i></div>
+            </div>
+        </header>
+        <div class="pages-container">
+            <section class="page active">
+                <div class="page-header">
+                    <h2 id="form-page-title">إضافة عضو جديد</h2>
+                    <button class="btn btn-secondary" onclick="window.location.href='members.html'"><i
+                            class="bx bx-arrow-back"></i> رجوع</button>
+                </div>
+                <div class="glass-card form-container">
+                    <form id="add-member-form" onsubmit="handleMemberSubmit(event)">
+                        <div class="form-grid">
+                            <!-- Photo Upload -->
+                            <div class="form-group" style="align-items:center;">
+                                <div style="position:relative;width:120px;margin:0 auto;">
+                                    <img id="photo-preview"
+                                        src="https://ui-avatars.com/api/?name=عضو&background=1e293b&color=D4AF37&size=120"
+                                        style="width:120px;height:120px;border-radius:50%;border:3px solid var(--gold-primary);object-fit:cover;"
+                                        alt="صورة العضو">
+                                    <label
+                                        style="position:absolute;bottom:0;right:0;background:var(--gold-primary);color:#000;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;">
+                                        <i class='bx bx-camera'></i>
+                                        <input type="file" id="photoInput" accept="image/*" style="display:none;">
+                                    </label>
+                                </div>
+                                <small class="text-secondary" style="text-align:center;margin-top:8px;">صورة شخصية
+                                    (اختياري)</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label>اسم العضو الرباعي *</label>
+                                <input type="text" id="memberName" class="form-control" required
+                                    placeholder="مثال: أحمد محمد علي سعيد">
+                            </div>
+                            <div class="form-group">
+                                <label>رقم الموبايل *</label>
+                                <input type="tel" id="memberPhone" class="form-control" required
+                                    placeholder="مثال: 01012345678">
+                            </div>
+                            <div class="form-group">
+                                <label>نوع الاشتراك *</label>
+                                <select id="planSelect" class="form-control" required>
+                                    <option value="">-- اختر الخطة --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>تاريخ البداية *</label>
+                                <input type="date" id="startDate" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>تاريخ الانتهاء (تلقائي)</label>
+                                <input type="date" id="endDate" class="form-control" readonly
+                                    style="background:rgba(255,255,255,0.03);">
+                            </div>
+                            <div class="form-group full-width">
+                                <label>ملاحظات</label>
+                                <textarea id="memberNotes" class="form-control" rows="3"
+                                    placeholder="ملاحظات صحية أو أي معلومات أخرى..."></textarea>
+                            </div>
+                        </div>
+                        <div class="form-actions mt-4" style="display:flex;gap:15px;margin-top:25px;">
+                            <button type="submit" id="submit-btn" class="btn btn-primary">
+                                <i class='bx bx-save'></i> حفظ وإصدار QR Code
+                            </button>
+                            <button type="button" class="btn"
+                                onclick="window.location.href='members.html'">إلغاء</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer class="site-footer">
+        Developed by <a href="https://wa.me/201013706142" target="_blank" rel="noopener noreferrer"
+            class="footer-link">Abdelkader Mohamed</a>
+    </footer>
+    <script src="js/db.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/members.js"></script>
+</body>
+
+</html>

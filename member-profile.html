@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الملف الشخصي - Royal Gym</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        @media print {
+
+            .sidebar,
+            .top-header,
+            .profile-actions,
+            .page-header button {
+                display: none !important;
+            }
+
+            .main-content {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="logo-details"><i class='bx bx-crown icon'></i>
+            <div class="logo_name">Royal Gym</div><i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav-list">
+            <li><a href="dashboard.html" class="nav-link"><i class="bx bx-grid-alt"></i><span
+                        class="links_name">الرئيسية</span></a><span class="tooltip">الرئيسية</span></li>
+            <li><a href="members.html" class="nav-link active"><i class="bx bx-user"></i><span class="links_name">إدارة
+                        الأعضاء</span></a><span class="tooltip">الأعضاء</span></li>
+            <li><a href="attendance.html" class="nav-link"><i class="bx bx-check-square"></i><span
+                        class="links_name">إدارة الحضور</span></a><span class="tooltip">الحضور</span></li>
+            <li><a href="subscriptions.html" class="nav-link"><i class="bx bx-card"></i><span
+                        class="links_name">الاشتراكات</span></a><span class="tooltip">الاشتراكات</span></li>
+            <li><a href="reports.html" class="nav-link"><i class="bx bx-pie-chart-alt-2"></i><span
+                        class="links_name">التقارير</span></a><span class="tooltip">التقارير</span></li>
+            <li><a href="settings.html" class="nav-link"><i class="bx bx-cog"></i><span
+                        class="links_name">الإعدادات</span></a><span class="tooltip">الإعدادات</span></li>
+            <li class="reception-link"><a href="reception.html" class="nav-link"><i class="bx bx-qr-scan"></i><span
+                        class="links_name">شاشة الاستقبال</span></a><span class="tooltip">الاستقبال</span></li>
+            <li style="margin-top:40px;"><a href="index.html" class="nav-link"><i
+                        class='bx bx-log-out text-red'></i><span class="links_name text-red">تسجيل
+                        الخروج</span></a><span class="tooltip">خروج</span></li>
+        </ul>
+    </aside>
+    <main class="main-content" id="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <button class="mobile-menu-btn" aria-label="فتح القائمة"><i class='bx bx-menu'></i></button>
+                <div class="search-box"><i class='bx bx-search'></i><input type="text" placeholder="بحث سريع عن عضو...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="datetime" id="current-datetime"></div>
+                <div class="notifications"><i class='bx bx-bell'></i><span class="badge">0</span></div>
+                <div class="profile-dropdown"><img
+                        src="https://ui-avatars.com/api/?name=Admin&background=fbbf24&color=000" alt="Admin"><span>مدير
+                        النظام</span><i class='bx bx-chevron-down'></i></div>
+            </div>
+        </header>
+        <div class="pages-container">
+            <section id="member-profile-section" class="page active">
+                <div class="page-header">
+                    <h2>الملف الشخصي للعضو</h2>
+                    <button class="btn btn-secondary" onclick="window.location.href='members.html'"><i
+                            class="bx bx-arrow-back"></i> رجوع</button>
+                </div>
+                <div class="profile-layout">
+                    <div class="profile-sidebar glass-card">
+                        <div class="profile-avatar">
+                            <img id="prof-avatar" src="" alt="Avatar">
+                            <span id="prof-status"></span>
+                        </div>
+                        <h3 class="profile-name" id="prof-name">-</h3>
+                        <p class="profile-id" id="prof-id">-</p>
+                        <div class="qr-box">
+                            <img id="prof-qr" src="" alt="QR Code" class="qr-img">
+                            <p>امسح الكود لتسجيل الدخول</p>
+                        </div>
+                        <div class="profile-actions">
+                            <button class="btn btn-primary w-100 mb-2" id="btn-renew"
+                                style="width:100%;margin-bottom:10px;"><i class='bx bx-refresh'></i> تجديد
+                                الاشتراك</button>
+                            <button class="btn btn-secondary w-100 mb-2" id="btn-edit-prof"
+                                style="width:100%;margin-bottom:10px;"><i class='bx bx-edit'></i> تعديل
+                                البيانات</button>
+                            <button class="btn btn-secondary w-100 mb-2" id="btn-print"
+                                style="width:100%;margin-bottom:10px;"><i class='bx bx-printer'></i> طباعة
+                                الكارت</button>
+                            <button class="btn w-100" id="btn-whatsapp"
+                                style="width:100%;background:#25D366;color:#fff;font-weight:700;">
+                                <i class='bx bxl-whatsapp'></i> إرسال QR عبر واتساب
+                            </button>
+                        </div>
+                    </div>
+                    <div class="profile-main">
+                        <div class="glass-card mb-4 p-4" style="margin-bottom:20px;padding:25px;">
+                            <h3 class="section-title">المعلومات الأساسية</h3>
+                            <div class="info-grid">
+                                <div class="info-item"><label>رقم الموبايل</label>
+                                    <p id="prof-phone">-</p>
+                                </div>
+                                <div class="info-item"><label>نوع الاشتراك</label>
+                                    <p id="prof-plan">-</p>
+                                </div>
+                                <div class="info-item"><label>تاريخ البداية</label>
+                                    <p id="prof-start">-</p>
+                                </div>
+                                <div class="info-item"><label>تاريخ الانتهاء</label>
+                                    <p id="prof-end" class="text-warning">-</p>
+                                </div>
+                                <div class="info-item full-width"><label>ملاحظات</label>
+                                    <p id="prof-notes" style="font-size:14px;color:#94a3b8;">-</p>
+                                </div>
+                            </div>
+
+                            <!-- Subscription Progress Bar -->
+                            <div id="sub-progress-wrap" style="margin-top:25px;display:none;">
+                                <div
+                                    style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                                    <span id="sub-progress-label"
+                                        style="font-size:13px;font-weight:700;color:#F8FAFC;"></span>
+                                    <span id="sub-progress-pct"
+                                        style="font-size:13px;font-weight:700;color:#D4AF37;"></span>
+                                </div>
+                                <div class="sub-progress-track">
+                                    <div id="sub-progress-bar" class="sub-progress-fill"></div>
+                                </div>
+                                <div style="display:flex;justify-content:space-between;margin-top:6px;">
+                                    <span id="sub-progress-used" style="font-size:12px;color:#94a3b8;"></span>
+                                    <span id="sub-progress-remain" style="font-size:12px;color:#94a3b8;"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="glass-card p-4" style="padding:25px;">
+                            <h3 class="section-title">سجل الحضور</h3>
+                            <div class="attendance-stats">
+                                <div class="stat-box"><i class='bx bx-calendar-check text-green'></i>
+                                    <div>
+                                        <h4>أيام الحضور</h4>
+                                        <p id="prof-attend-count">0</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="data-table mt-4" style="margin-top:20px;">
+                                <thead>
+                                    <tr>
+                                        <th>التاريخ</th>
+                                        <th>وقت الدخول</th>
+                                        <th>الطريقة</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="prof-log-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer class="site-footer">
+        Developed by <a href="https://wa.me/201013706142" target="_blank" rel="noopener noreferrer"
+            class="footer-link">Abdelkader Mohamed</a>
+    </footer>
+    <script src="js/db.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/members.js"></script>
+</body>
+
+</html>
