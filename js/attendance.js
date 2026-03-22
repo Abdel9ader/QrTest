@@ -348,5 +348,36 @@ function showCheckinResult(success, member, message) {
 function playSound(type) {
     const id = type === 'success' ? 'success-sound' : 'error-sound';
     const audio = document.getElementById(id);
-    if (audio) { audio.currentTime = 0; audio.play().catch(() => { }); }
+    if (audio && audio.src && !audio.error) {
+        audio.currentTime = 0;
+        audio.play().catch(() => _playSyntheticSound(type));
+    } else {
+        _playSyntheticSound(type);
+    }
+}
+
+function _playSyntheticSound(type) {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = ctx.createOscillator();
+        const gainNode = ctx.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(ctx.destination);
+        if (type === 'success') {
+            oscillator.frequency.setValueAtTime(880, ctx.currentTime);
+            oscillator.frequency.setValueAtTime(1100, ctx.currentTime + 0.1);
+            gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+            oscillator.start(ctx.currentTime);
+            oscillator.stop(ctx.currentTime + 0.4);
+        } else {
+            oscillator.type = 'sawtooth';
+            oscillator.frequency.setValueAtTime(300, ctx.currentTime);
+            oscillator.frequency.setValueAtTime(150, ctx.currentTime + 0.15);
+            gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+            oscillator.start(ctx.currentTime);
+            oscillator.stop(ctx.currentTime + 0.4);
+        }
+    } catch (e) { /* no audio support */ }
 }
